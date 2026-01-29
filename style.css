@@ -2,6 +2,7 @@
   --clr-background: rgb(255, 255, 255);
   --clr-fontmain:rgb(0, 0, 0);
   --clr-fontalt: rgb(100, 100, 100);
+  --padding-projectpage: 20px;
 }
 
 @font-face {
@@ -22,38 +23,48 @@ body {
 
 h1 {
   color: rgb(12, 12, 12);
+  margin: 0px;
   text-align: left;
   text-justify: center;
-  font-size: large;
+  font-size: 60px;
 }
 
 p {
   font-size: 20px;
 }
 
-p class = "pDesc" {
+.pDesc {
   color: var(--clr-fontalt);
-  font-size: 20px;
+  margin: 0px;
+  font-size: 16px;
 }
 
 .containerTitle {
   width: 100%;
-  height: .25dvh;
+  height: 17dvh;
   margin: 0;
-  padding: 20px;
+  padding: var(--padding-projectpage);
 }
 
 .Carousel {
+  color: red;
   width: 100%;
-  height: .33dh;
+  height: 33dvh;
   margin: 0;
   overflow: hidden;
   display: flex;
 }
 
 .CarouselImg {
-  width: auto;
-  max-height: .33dh;
+  flex: 0 0 auto;
+  height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.CarouselImg img {
+  display: block;
+  height: 100%;
+  width: auto;
+  object-fit: contain;
 }
