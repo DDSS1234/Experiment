@@ -5,33 +5,34 @@
 }
 
 @font-face {
-  font-family: Geist;
-  src: url("/assets/fonts/geist/Geist-Regular.woff2");
+  font-family: "Geist";
+  src: url("/assets/fonts/geist/Geist-Regular.woff2") format("woff2");
   font-style: normal; 
+  font-weight: 400;
   font-display: swap;
 }
 
-body {
+* {
   font-family: "Geist", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--clr-background);
+}
+
+body {
+  color: var(--clr-fontmain);
 }
 
 h1 {
   color: rgb(12, 12, 12);
   text-align: left;
   text-justify: center;
-  font-family: Geist;
   font-size: large;
 }
 
 p {
-  font-family: verdana;
   font-size: 20px;
 }
 
-pDesc {
+p class = "pDesc" {
   color: var(--clr-fontalt);
-  font-family: verdana;
   font-size: 20px;
 }
 
@@ -39,7 +40,20 @@ pDesc {
   width: 100%;
   height: .25dvh;
   margin: 0;
-  padding: 16px;
+  padding: 20px;
 }
-</style>  font-family: "Geist", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-</head>
+
+.Carousel {
+  width: 100%;
+  height: .33dh;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+}
+
+.CarouselImg {
+  width: auto;
+  max-height: .33dh;
+  margin: 0;
+  padding: 0;
+}
