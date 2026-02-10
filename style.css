@@ -6,19 +6,37 @@
 }
 
 @font-face {
-  font-family: "Geist";
+  font-family: "MyHeadFont";
   src: url("/assets/fonts/geist/Geist-Regular.woff2") format("woff2");
   font-style: normal; 
   font-weight: 400;
   font-display: swap;
 }
 
-* {
-  font-family: "Geist", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+@font-face {
+  font-family: "MyBodyFont";
+  src: url("/assets/assets/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf/") format(".ttf");
+  font-style: normal; 
+  font-weight: 400;
+  font-display: swap;
+}
+
+logo {
+  font-family: "MyHeadFont";
+  align-self: left;
+  font-size: 2.5rem;
+  align-self: baseline;
+  font-weight: 600;
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  font-family: "MyBodyFont";
   color: var(--clr-fontmain);
+  text-align: justify;
+  line-height: 1.6;
+  font-size: 1rem;
 }
 
 h1 {
@@ -26,15 +44,16 @@ h1 {
   margin: 0px;
   text-align: left;
   text-justify: center;
-  font-size: 60px;
+  font-size: 36px;
 }
 
 h3 {
+  font-family: "MyHeadFont";;
   color: var(--clr-fontmain);
   margin: 0px;
   text-align: left;
   text-justify: center;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 
@@ -50,17 +69,24 @@ p {
 
 .navContainer {
   display: flex;
-  justify-content: right;
-  width: 100%;
-  height: 10dvh;
-  margin: 12px;
-  padding: var(--padding-projectpage);
+  justify-content: flex-end;
+  height: 5rem;
+  margin: 1rem;
+  padding: 2rem;
+  gap: 1rem;
+  align-items: baseline;
+  overflow: none;
 }
 
-.navContainer div {
-  background-color: transparent;
-  margin-left: 8px;
-  margin-right: 8px;
+.item {
+  margin: 0;
+  width: 5rem;
+  text-align: bottom;
+  text-justify: center;
+}
+
+.item-1 {
+  flex: auto;
 }
 
 .containerTitle {
@@ -68,6 +94,24 @@ p {
   height: 17dvh;
   margin: 0;
   padding: var(--padding-projectpage);
+}
+
+.navButtons {
+  font-family: "MyHeadFont";
+  display: flex;
+  text-align: bottom;
+  text-justify: center;
+  font-size: 1.2rem;
+  width: 100%;
+  height: 5rem;
+  margin: 0;
+  padding: var(--padding-projectpage);
+}
+
+.navButtons:hover {
+  color: var(--clr-fontalt);
+  box-shadow: inset .5rem (--clr-fontmain);
+  cursor: pointer;
 }
 
 .Carousel {
