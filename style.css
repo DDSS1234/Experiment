@@ -8,7 +8,7 @@
   --clr-background: rgb(255, 255, 255);
   --clr-fontmain:rgb(0, 0, 0);
   --clr-fontalt: rgb(100, 100, 100);
-  --padding-projectpage: 2rem;
+  --padding-projectpage: 1rem;
 }
 
 @font-face {
@@ -66,6 +66,7 @@ h3 {
 
 
 p {
+  font-family: "MyBodyFont";
   font-size: 1.4rem;
   width: 50ch;
 }
@@ -79,52 +80,59 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  align-self: right;
 }
 
 li {
   display: inline-block;
-  margin-inline: 0.5rem;
+  margin-inline: 1rem;
   font-family: "MyHeadFont";
-  margin-bottom: 0.5rem;
   color: var(--clr-fontmain);
 }
 
 li:hover, li:focus {
   color: var(--clr-fontalt);
-  translate: move(1rem, -1rem);
+  translate: 0 -.25rem;
 }
 
 a {
   font-family: "MyHeadFont";
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: var(--clr-fontmain);
   text-decoration: none;
 }
 
 a:hover, a:focus {
   font-family: "MyHeadFont";
-  font-size: 1.5rem;
   color: var(--clr-fontalt);
   text-decoration: none;
   translate: move(0, -0.2rem);
+  text-decoration: underline;
+  
 }
 
 a:active {
   font-family: "MyHeadFont";
-  font-size: 1.5rem;
   color: var(--clr-fontalt);
   text-decoration: none;
 }
 
 .navContainer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex;
   height: 5rem;
   margin: 1rem;
-  padding: 2rem;
+  padding: 1rem;
   gap: 1rem;
   align-items: baseline;
   overflow: none;
+}
+
+.logo {
+  color: var(--clr-fontmain);
+  text-decoration: none;
+  text-justify: left;
+  flex: 1;
 }
 
 .item {
@@ -147,28 +155,8 @@ a:active {
 
 .containerTitle {
   margin: 1rem;
-  padding: 2rem;
+  padding: 1rem;
   height: 10rem;
-  margin: 0;
-  padding: var(--padding-projectpage);
-}
-
-.navButtons {
-  font-family: "MyHeadFont";
-  display: flex;
-  text-align: bottom;
-  text-justify: center;
-  font-size: 1.2rem;
-  width: 100%;
-  height: 5rem;
-  margin: 0;
-  padding: var(--padding-projectpage);
-}
-
-.navButtons:hover {
-  color: var(--clr-fontalt);
-  box-shadow: inset .5rem (--clr-fontmain);
-  cursor: pointer;
 }
 
 .Carousel {
@@ -178,6 +166,7 @@ a:active {
   margin: 0;
   overflow: hidden;
   display: flex;
+  -webkit-animation: in 1s;
 }
 
 .CarouselImg {
@@ -192,4 +181,15 @@ a:active {
   height: 100%;
   width: auto;
   object-fit: contain;
+  -webkit-animation: in .75s;
+}
+
+.CarouselImg img:hover {
+  -webkit-animation: out 1s;
+}
+
+@-webkit-keyframes in {
+  from {
+    transform: translatex(-10rem);
+  }
 }
