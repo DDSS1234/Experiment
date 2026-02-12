@@ -1,8 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
   --clr-background: rgb(255, 255, 255);
   --clr-fontmain:rgb(0, 0, 0);
   --clr-fontalt: rgb(100, 100, 100);
-  --padding-projectpage: 20px;
+  --padding-projectpage: 2rem;
 }
 
 @font-face {
@@ -21,14 +27,6 @@
   font-display: swap;
 }
 
-logo {
-  font-family: "MyHeadFont";
-  align-self: left;
-  font-size: 2.5rem;
-  align-self: baseline;
-  font-weight: 600;
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -40,11 +38,21 @@ body {
 }
 
 h1 {
+  font-family: "MyHeadFont";
   color: var(--clr-fontmain);
   margin: 0px;
   text-align: left;
   text-justify: center;
-  font-size: 36px;
+  font-size: 5rem;
+}
+
+h2 {
+  font-family: "MyHeadFont";;
+  color: var(--clr-fontmain);
+  margin: 0px;
+  text-align: left;
+  text-justify: center;
+  font-size: 3.5rem;
 }
 
 h3 {
@@ -53,18 +61,59 @@ h3 {
   margin: 0px;
   text-align: left;
   text-justify: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 
 p {
-  font-size: 20px;
+  font-size: 1.4rem;
+  width: 50ch;
 }
 
-.pDesc {
+.desc {
   color: var(--clr-fontalt);
-  margin: 0px;
-  font-size: 16px;
+  font-size: 1.2rem;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: inline-block;
+  margin-inline: 0.5rem;
+  font-family: "MyHeadFont";
+  margin-bottom: 0.5rem;
+  color: var(--clr-fontmain);
+}
+
+li:hover, li:focus {
+  color: var(--clr-fontalt);
+  translate: move(1rem, -1rem);
+}
+
+a {
+  font-family: "MyHeadFont";
+  font-size: 1.5rem;
+  color: var(--clr-fontmain);
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  font-family: "MyHeadFont";
+  font-size: 1.5rem;
+  color: var(--clr-fontalt);
+  text-decoration: none;
+  translate: move(0, -0.2rem);
+}
+
+a:active {
+  font-family: "MyHeadFont";
+  font-size: 1.5rem;
+  color: var(--clr-fontalt);
+  text-decoration: none;
 }
 
 .navContainer {
@@ -80,18 +129,26 @@ p {
 
 .item {
   margin: 0;
-  width: 5rem;
+  width: 20rem;
   text-align: bottom;
   text-justify: center;
 }
 
 .item-1 {
+  font-family: "MyHeadFont";
+  align-self: left;
+  font-size: 2.5rem;
+  align-self: baseline;
+  font-weight: 600;
   flex: auto;
+  width: 15em;
+  text-align: left;
 }
 
 .containerTitle {
-  width: 100%;
-  height: 17dvh;
+  margin: 1rem;
+  padding: 2rem;
+  height: 10rem;
   margin: 0;
   padding: var(--padding-projectpage);
 }
@@ -117,7 +174,7 @@ p {
 .Carousel {
   color: red;
   width: 100%;
-  height: 33dvh;
+  height: 40rem;
   margin: 0;
   overflow: hidden;
   display: flex;
