@@ -9,6 +9,7 @@
   --clr-fontmain:rgb(0, 0, 0);
   --clr-fontalt: rgb(100, 100, 100);
   --padding-projectpage: 1rem;
+  --nav-height: 5rem;
 }
 
 @font-face {
@@ -21,7 +22,7 @@
 
 @font-face {
   font-family: "MyBodyFont";
-  src: url("/assets/assets/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf/") format(".ttf");
+  src: url("/assets/fonts/JetBrains_Mono/JetBrainsMono-Regular.woff2") format("woff2");
   font-style: normal; 
   font-weight: 400;
   font-display: swap;
@@ -60,14 +61,40 @@ h3 {
   color: var(--clr-fontmain);
   margin: 0px;
   text-align: left;
+  text-justify:distribute-all-lines;
+  font-size: 2rem;
+}
+
+.alternateh3 {
+  font-family: "MyBodyFont";
+  color: var(--clr-fontmain);
+  margin: 0px;
+  text-align: left;
   text-justify: center;
   font-size: 2rem;
 }
 
+h4 {
+  font-family: "MyHeadFont";;
+  color: var(--clr-fontmain);
+  margin: 0px;
+  text-align: left;
+  text-justify: center;
+  font-size: 1.4rem;
+}
+
+.alternateh4 {
+  font-family: "MyBodyFont";
+  color: var(--clr-fontmain);
+  margin: 0px;
+  font-size: 1.4rem;
+  width: 50ch;
+  padding-left: 1rem;
+}
 
 p {
   font-family: "MyBodyFont";
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   width: 50ch;
 }
 
@@ -88,16 +115,19 @@ li {
   margin-inline: 1rem;
   font-family: "MyHeadFont";
   color: var(--clr-fontmain);
+  font-weight: 600;
 }
 
 li:hover, li:focus {
   color: var(--clr-fontalt);
+  animation: cubic-bezier(.36,-.05,.07,1);
+  transition: 1.2s ease-in-out;
   translate: 0 -.25rem;
 }
 
 a {
   font-family: "MyHeadFont";
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   color: var(--clr-fontmain);
   text-decoration: none;
 }
@@ -119,8 +149,8 @@ a:active {
 
 .navContainer {
   display: flex;
-  justify-content: flex;
-  height: 5rem;
+  justify-content: space-evenly;
+  height: var(--nav-height);
   margin: 1rem;
   padding: 1rem;
   gap: 1rem;
@@ -128,11 +158,22 @@ a:active {
   overflow: none;
 }
 
-.logo {
-  color: var(--clr-fontmain);
-  text-decoration: none;
-  text-justify: left;
-  flex: 1;
+.nbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+  gap: .5rem;
+  flex-basis: 250px;
+  flex-grow: 1;
+}
+
+.index {
+  display: flex;
+  height: calc(100vh - var(--nav-height));
+  margin: 0 1rem 0;
+  padding: 0 1 rem 0;
+  gap: 1rem;
 }
 
 .item {
