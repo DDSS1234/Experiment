@@ -28,6 +28,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "SpecialFont";
+  src: url("/assets/fonts/cormorant/cormorant-v24-latin-300.woff2") format("woff2");
+  font-style: normal; 
+  font-weight: 300;
+  font-display: swap;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -57,12 +65,13 @@ h2 {
 }
 
 h3 {
-  font-family: "MyHeadFont";;
+  font-family: "SpecialFont";
   color: var(--clr-fontmain);
   margin: 0px;
   text-align: left;
   text-justify:distribute-all-lines;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  color: var(--clr-fontalt)
 }
 
 .alternateh3 {
@@ -89,7 +98,6 @@ h4 {
   margin: 0px;
   font-size: 1.4rem;
   width: 50ch;
-  padding-left: 1rem;
 }
 
 p {
@@ -121,7 +129,7 @@ li {
 li:hover, li:focus {
   color: var(--clr-fontalt);
   animation: cubic-bezier(.36,-.05,.07,1);
-  transition: 1.2s ease-in-out;
+  transition: 0.4s ease-in-out;
   translate: 0 -.25rem;
 }
 
@@ -149,38 +157,35 @@ a:active {
 
 .navContainer {
   display: flex;
-  justify-content: space-evenly;
   height: var(--nav-height);
   margin: 1rem;
   padding: 1rem;
-  gap: 1rem;
-  align-items: baseline;
-  overflow: none;
+  gap: 2rem;
+  grid-template-columns: 50dvw auto;
+  align-items: center;
+  width: 100%;
 }
 
 .nbox {
   display: flex;
-  flex-direction: row;
-  justify-content: left;
   align-items: left;
-  gap: .5rem;
-  flex-basis: 250px;
-  flex-grow: 1;
+  gap: 1rem;
+  width: 100%;
 }
 
 .index {
   display: flex;
-  height: calc(100vh - var(--nav-height));
-  margin: 0 1rem 0;
-  padding: 0 1 rem 0;
-  gap: 1rem;
+  margin: 1rem;
+  padding: 1rem;
+  gap: 2rem;
+  grid-template-columns: 50dvw auto;
+  height: 100dvh;
+  align-items: center;
+  width: 100%;
 }
 
 .item {
-  margin: 0;
-  width: 20rem;
-  text-align: bottom;
-  text-justify: center;
+  width: 100%;
 }
 
 .item-1 {
@@ -189,7 +194,6 @@ a:active {
   font-size: 2.5rem;
   align-self: baseline;
   font-weight: 600;
-  flex: auto;
   width: 15em;
   text-align: left;
 }
