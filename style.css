@@ -9,7 +9,7 @@
   --clr-fontmain:rgb(0, 0, 0);
   --clr-fontalt: rgb(100, 100, 100);
   --padding-projectpage: 1rem;
-  --nav-height: 5rem;
+  --nav-height: 3rem;
 }
 
 @font-face {
@@ -103,7 +103,7 @@ h4 {
 p {
   font-family: "MyBodyFont";
   font-size: 1.2rem;
-  width: 50ch;
+  max-width: 50ch;
 }
 
 .desc {
@@ -112,15 +112,15 @@ p {
 }
 
 ul {
+  display: flex;
   list-style-type: none;
   padding: 0;
   margin: 0;
-  align-self: right;
+  gap: 2rem;
 }
 
 li {
   display: inline-block;
-  margin-inline: 1rem;
   font-family: "MyHeadFont";
   color: var(--clr-fontmain);
   font-weight: 600;
@@ -159,7 +159,7 @@ a:active {
   display: flex;
   height: var(--nav-height);
   margin: 1rem;
-  padding: 1rem;
+  padding: 0 1rem 0;
   gap: 2rem;
   grid-template-columns: 50dvw auto;
   align-items: center;
