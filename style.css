@@ -10,6 +10,7 @@
   --clr-fontalt: rgb(100, 100, 100);
   --padding-projectpage: 16px;
   --nav-height: 40px;
+  --img-size: 800px;
 }
 
 @font-face {
@@ -50,11 +51,10 @@ body {
 h1 {
   font-family: "MyBodyFont";
   color: var(--clr-fontmain);
-  text-align: left;
+  text-align: center;
   text-justify: top;
   font-weight: 500;
-  font-size: 3rem;
-  font-display: ;
+  font-size: 4rem;
 }
 
 h2 {
@@ -166,7 +166,7 @@ a:active {
   gap: 16px;
   grid-template-columns: 50dvw auto;
   align-items: center;
-  width: 100dvw;
+  width: auto
 }
 
 .nbox {
@@ -224,23 +224,35 @@ a:active {
   flex: row;
   flex-wrap: wrap;
   margin: 16px;
-  padding: 0px 128px 0;
-  gap: 16px;
-  width: 100dvw;
+  padding: 128px 128px 0;
+  gap: 96px;
+  width: auto;
   justify-content: center;
   align-items: center;
 }
 
 .imgContainer {
   flex-grow: 1;
-  max-width: 600px;
-  max-height: 600px;
-  justify-items: center;
-  align-content: center;
+  max-width: calc(var(--img-size)+48px);
+  max-height: calc(var(--img-size)+48px);
+  margin: auto;
+  align-items: center;
+  justify-content: center;
 }
 
-img {
-  width: 400px;
+.thumbnail {
+  display: block;
+  width: var(--img-size);
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  transition: transform 0.35s ease-in-out;
+  filter: grayscale();
+}
+
+.thumbnail:hover {
+  transform: scale(1.03);
+  filter: grayscale(0);
 }
 
 .Carousel {
@@ -256,7 +268,7 @@ img {
 .CarouselImg {
   flex: 0 0 auto;
   height: 100%;
-  margin: 0;
+  margin: auto;
   padding: 0;
 }
 
@@ -271,6 +283,33 @@ img {
 .CarouselImg img:hover {
   -webkit-animation: out 1s;
 }
+
+.projectContainer {
+  margin: 100px 16px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: auto;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.projectDesc {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  flex-grow: 2;
+}
+
+.projectImages {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-grow: 3;
+}
+
 
 @-webkit-keyframes in {
   from {
