@@ -8,8 +8,8 @@
   --clr-background: rgb(255, 255, 255);
   --clr-fontmain:rgb(0, 0, 0);
   --clr-fontalt: rgb(100, 100, 100);
-  --padding-projectpage: 1rem;
-  --nav-height: 3rem;
+  --padding-projectpage: 16px;
+  --nav-height: 40px;
 }
 
 @font-face {
@@ -89,21 +89,21 @@ h4 {
   margin: 0px;
   text-align: left;
   text-justify: center;
-  font-size: 1.4rem;
-}
-
-.alternateh4 {
-  font-family: "MyBodyFont";
-  color: var(--clr-fontmain);
-  margin: 0px;
-  font-size: 1.4rem;
-  width: 50ch;
+  font-size: 1rem;
 }
 
 p {
   font-family: "MyBodyFont";
   font-size: 1.2rem;
   max-width: 50ch;
+}
+
+.altP {
+  font-family: "MyBodyFont";
+  color: var(--clr-fontmain);
+  margin: 0px;
+  font-size: 1rem;
+  width: calc(0.45*100dvw);
 }
 
 .desc {
@@ -116,14 +116,15 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  gap: 2rem;
+  gap: 24px;
+  font-weight: 600;
 }
 
 li {
   display: inline-block;
   font-family: "MyHeadFont";
   color: var(--clr-fontmain);
-  font-weight: 600;
+  font-size: 1rem;
 }
 
 li:hover, li:focus {
@@ -158,12 +159,12 @@ a:active {
 .navContainer {
   display: flex;
   height: var(--nav-height);
-  margin: 1rem;
-  padding: 0 1rem 0;
-  gap: 2rem;
+  margin: 16px;
+  padding: 0 16px 0;
+  gap: 16px;
   grid-template-columns: 50dvw auto;
   align-items: center;
-  width: 100%;
+  width: auto;
 }
 
 .nbox {
@@ -173,19 +174,20 @@ a:active {
   width: 100%;
 }
 
-.index {
+.container {
   display: flex;
-  margin: 1rem;
-  padding: 1rem;
-  gap: 2rem;
+  margin: 16px;
+  padding: var(--padding-projectpage);
+  gap: 16px;
   grid-template-columns: 50dvw auto;
-  height: 100dvh;
   align-items: center;
-  width: 100%;
+  width: auto;
+  height: calc(100dvh - var(--nav-height));
 }
 
 .item {
-  width: 100%;
+  flex-grow: 1;
+  align-items: stretch;
 }
 
 .item-1 {
