@@ -70,7 +70,6 @@ h3 {
   font-family: "MyHeadFont";
   color: var(--clr-fontmain);
   margin: 0px;
-  font-weight: 500;
   text-align: left;
   text-justify:distribute-all-lines;
   font-size: 2rem;
@@ -91,13 +90,18 @@ h4 {
   margin: 0px;
   text-align: left;
   text-justify: center;
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 p {
   font-family: "MyBodyFont";
-  font-size: 1.2rem;
-  max-width: 50ch;
+  font-size: 1.1rem;
+  max-width: 40ch;
+  color: var(--clr-fontalt);
+}
+
+.indent {
+  text-indent: 1em;
 }
 
 .altP {
@@ -125,36 +129,27 @@ ul {
 li {
   display: inline-block;
   font-family: "MyHeadFont";
-  color: var(--clr-fontmain);
+  color: var(--clr-fontalt);
   font-size: 1rem;
+  transition: transform 0.35s ease-in-out, color 0.35s ease-in-out;
 }
 
 li:hover, li:focus {
-  color: var(--clr-fontalt);
   animation: cubic-bezier(.36,-.05,.07,1);
-  transition: 0.4s ease-in-out;
-  translate: 0 -.25rem;
+  transform: rotatey(360deg);
+  color: var(--clr-fontmain);
 }
 
 a {
   font-family: "MyHeadFont";
   font-size: 1rem;
-  color: var(--clr-fontmain);
-  text-decoration: none;
-}
-
-a:hover, a:focus {
-  font-family: "MyHeadFont";
   color: var(--clr-fontalt);
   text-decoration: none;
-  translate: move(0, -0.2rem);
-  text-decoration: underline;
-  
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-
 a:active {
   font-family: "MyHeadFont";
-  color: var(--clr-fontalt);
+  color: var(--clr-main);
   text-decoration: none;
 }
 
@@ -255,6 +250,14 @@ a:active {
   filter: grayscale(0);
 }
 
+.projectImg {
+  display: block;
+  width: var(--img-size);
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .Carousel {
   color: red;
   width: 100%;
@@ -288,26 +291,32 @@ a:active {
   margin: 100px 16px 16px;
   display: flex;
   flex-direction: row;
-  gap: 16px;
-  width: auto;
+  justify-content: flex-start;
+  gap: 64px;
+  width: 100%;
 }
 
 .spacer {
-  flex-grow: 1;
+  flex-grow: 3;
+  flex-basis: 25%;
 }
 
 .projectDesc {
   display: flex;
   flex-direction: column;
-  gap: 48px;
-  flex-grow: 2;
+  gap: 24px;
+  flex-grow: 3;
+  padding: 0 16px;
+  flex-basis: 25%;
 }
 
 .projectImages {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  flex-grow: 3;
+  flex-grow: 6;
+  flex-basis: 50%;
+
 }
 
 
