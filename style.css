@@ -13,6 +13,33 @@
   --img-size: 800px;
 }
 
+/*KEYFRAMES*/
+
+@keyframes in {
+  from {
+    transform: translatex(-10rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference){
+
+  @keyframes fade-in {
+    from {moveY: -10px; opacity: 0;}
+    to {moveY: 0px; opacity: 1;}
+  }
+
+  @keyframes fade-up {
+    0%{
+      opacity: 0;
+      transform: translateY(32px);
+    }
+    100%{
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+}
+
 @font-face {
   font-family: "MyHeadFont";
   src: url("/assets/fonts/geist/Geist-Regular.woff2") format("woff2");
@@ -95,8 +122,8 @@ h4 {
 
 p {
   font-family: "MyBodyFont";
-  font-size: 1.1rem;
-  max-width: 40ch;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  width: clamp(30ch, 2vw, 50ch);
   color: var(--clr-fontalt);
 }
 
@@ -108,8 +135,8 @@ p {
   font-family: "MyBodyFont";
   color: var(--clr-fontmain);
   margin: 0px;
-  font-size: 1rem;
-  width: calc(0.45*100dvw);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  width: clamp(30ch, 2vw, 50ch);
 }
 
 .desc {
@@ -219,8 +246,8 @@ a:active {
   flex: row;
   flex-wrap: wrap;
   margin: 16px;
-  padding: 128px 128px 0;
-  gap: 96px;
+  padding: 0 16px 0;
+  gap: clamp(28px, 3vw, 56px);
   width: auto;
   justify-content: center;
   align-items: center;
@@ -228,7 +255,7 @@ a:active {
 
 .imgContainer {
   flex-grow: 1;
-  max-width: calc(var(--img-size)+48px);
+  width: 25%;
   max-height: calc(var(--img-size)+48px);
   margin: auto;
   align-items: center;
@@ -236,13 +263,16 @@ a:active {
 }
 
 .thumbnail {
-  display: block;
-  width: var(--img-size);
+  object-fit: contain;
+  width: 100%;
   align-items: center;
   margin-left: auto;
   margin-right: auto;
   transition: transform 0.35s ease-in-out;
   filter: grayscale();
+  animation: fade-up 0.5s;
+  animation-timeline: view();
+  animation-range: entry;
 }
 
 .thumbnail:hover {
@@ -256,35 +286,6 @@ a:active {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-}
-
-.Carousel {
-  color: red;
-  width: 100%;
-  height: 40rem;
-  margin: 0;
-  overflow: hidden;
-  display: flex;
-  -webkit-animation: in 1s;
-}
-
-.CarouselImg {
-  flex: 0 0 auto;
-  height: 100%;
-  margin: auto;
-  padding: 0;
-}
-
-.CarouselImg img {
-  display: block;
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-  -webkit-animation: in .75s;
-}
-
-.CarouselImg img:hover {
-  -webkit-animation: out 1s;
 }
 
 .projectContainer {
@@ -317,11 +318,4 @@ a:active {
   flex-grow: 6;
   flex-basis: 50%;
 
-}
-
-
-@-webkit-keyframes in {
-  from {
-    transform: translatex(-10rem);
-  }
 }
