@@ -11,6 +11,7 @@
   --padding-projectpage: 16px;
   --nav-height: 40px;
   --img-size: 800px;
+  --padding--lr: clamp(16px, 2vw, 48px);
 }
 
 /*KEYFRAMES*/
@@ -117,7 +118,7 @@ h4 {
   margin: 0px;
   text-align: left;
   text-justify: center;
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 2vw, 1.5rem);
 }
 
 p {
@@ -125,6 +126,15 @@ p {
   font-size: clamp(1rem, 2vw, 1.5rem);
   width: clamp(30ch, 2vw, 50ch);
   color: var(--clr-fontalt);
+}
+
+.p--footing {
+  width: auto;
+  margin: 0 16px 0;
+  font-size: clamp(.6rem, 1vw, .8rem);
+  padding: clamp(16px, 2vw, 48px) clamp(16px, 2vw, 48px) clamp(16px, 2vw, 48px);
+  text-align: right;
+
 }
 
 .indent {
@@ -149,7 +159,7 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  gap: 24px;
+  gap: clamp(1rem, 2vw, 4rem);
   font-weight: 600;
 }
 
@@ -161,7 +171,7 @@ li {
   transition: transform 0.35s ease-in-out, color 0.35s ease-in-out;
 }
 
-li:hover, li:focus {
+li:hover {
   animation: cubic-bezier(.36,-.05,.07,1);
   transform: rotatey(360deg);
   color: var(--clr-fontmain);
@@ -169,10 +179,11 @@ li:hover, li:focus {
 
 a {
   font-family: "MyHeadFont";
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: var(--clr-fontalt);
+  font-size: clamp(1rem, 1.2vw, 2rem);
+  color: var(--clr-fontmain);
   text-decoration: none;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  font-weight: 500;
 }
 a:active {
   font-family: "MyHeadFont";
@@ -184,8 +195,7 @@ a:active {
   display: flex;
   height: var(--nav-height);
   margin: 16px;
-  padding: clamp(16px, 2vw, 48px) clamp(16px, 2vw, 48px) 0;
-  gap: 16px;
+  padding: clamp(16px, 2vw, 48px) var(--padding--lr) 0;
   grid-template-columns: 50dvw auto;
   align-items: center;
   width: auto
@@ -198,7 +208,7 @@ a:active {
   width: 100%;
 }
 
-.nboxRight {
+.nbox--right {
   justify-content: flex-end;
 }
 
@@ -232,19 +242,20 @@ a:active {
 
 .displayContainer {
   display: flex;
+  width: auto;
   flex: row;
   flex-wrap: wrap;
   margin: 16px;
-  padding: 0 64px 0;
-  gap: clamp(32px, 3vw, 64px);
-  width: auto;
+  padding: clamp(52px, 3vw, 96px) var(--padding--lr) 0;
+  column-gap: 10vw;
+  row-gap: 4vw;
   justify-content: center;
   align-items: center;
 }
 
 .imgContainer {
   flex-grow: 1;
-  width: 28vw;
+  width: 25%;
   height: auto;
   margin: auto;
   align-items: center;
@@ -266,7 +277,7 @@ a:active {
 }
 
 .thumbnail:hover {
-  transform: scale(1.03);
+  transform: scale(0.9);
   filter: grayscale(0);
 }
 
@@ -290,6 +301,11 @@ a:active {
 .spacer {
   flex-grow: 3;
   flex-basis: 25%;
+}
+
+.spacerProject {
+  height: clamp (24px, 4vh, 48px);
+  width: 100%;
 }
 
 .projectDesc {
