@@ -121,10 +121,18 @@ h4 {
   font-size: clamp(1rem, 2vw, 1.5rem);
 }
 
+.h4--logo {
+    font-size: clamp(1rem, 1.25vw, 1.4rem);
+}
+
+.h4--logo:hover {
+  
+}
+
 p {
   font-family: "MyBodyFont";
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  width: clamp(30ch, 2vw, 50ch);
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
+  width: clamp(30ch, 40vw, 50ch);
   color: var(--clr-fontalt);
 }
 
@@ -137,7 +145,7 @@ p {
 
 }
 
-.indent {
+.p--indent {
   text-indent: 1em;
 }
 
@@ -159,8 +167,9 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  gap: clamp(1rem, 2vw, 4rem);
+  gap: clamp(1em, 2vw, 4em);
   font-weight: 600;
+  align-content: baseline;
 }
 
 li {
@@ -223,16 +232,6 @@ a:active {
   height: calc(100dvh - var(--nav-height));
 }
 
-.container {
-  display: flex;
-  margin: 16px;
-  padding: var(--padding-projectpage);
-  gap: 16px;
-  grid-template-columns: 50dvw auto;
-  align-items: center;
-  width: auto;
-}
-
 .containerTitle {
   margin: 16px;
   height: 160px;
@@ -281,21 +280,48 @@ a:active {
   filter: grayscale(0);
 }
 
-.projectImg {
-  display: block;
-  width: var(--img-size);
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .projectContainer {
   margin: 100px 16px 16px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  gap: 64px;
+  gap: 2em;
   width: 100%;
+}
+
+.project--summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  flex-grow: 1;
+  padding: 0 var(--padding--lr);
+  flex-basis: 25%;
+}
+
+.project--images {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  height: auto;
+  padding: 0 var(--padding--lr);
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}
+
+.imgContainer--projects{
+  width: auto;
+}
+
+.img--project {
+  display: block;
+  object-fit: contain;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  justify-self: center;
 }
 
 .spacer {
@@ -308,20 +334,19 @@ a:active {
   width: 100%;
 }
 
-.projectDesc {
+.about--container {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-  flex-grow: 3;
-  padding: 0 16px;
-  flex-basis: 25%;
+  width: auto;
+  gap: 5%;
+  justify-content: center;
+  align-items: center;
+  margin: 16px;
+  padding: var(--padding--lr) var(--padding--lr) 0;
 }
 
-.projectImages {
+.about--item {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
-  gap: 16px;
-  flex-grow: 6;
-  flex-basis: 50%;
-
+  gap: 1em;
 }
