@@ -45,7 +45,7 @@
   font-family: "MyHeadFont";
   src: url("/assets/fonts/geist/Geist-Regular.woff2") format("woff2");
   font-style: normal; 
-  font-weight: 400;
+  font-weight: 500;
   font-display: swap;
 }
 
@@ -112,13 +112,24 @@ h3 {
   font-size: 2rem;
 }
 
+.h3--enter:hover{
+  
+}
+
 h4 {
-  font-family: "MyHeadFont";;
+  font-family: "MyHeadFont";
   color: var(--clr-fontmain);
   margin: 0px;
   text-align: left;
   text-justify: center;
   font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+h5 {
+  font-family: "MyHeadFont";
+  color: var(--clr-fontmain);
+  text-align: left;
+  font-size: 1rem, 2vw, 1.3rem;
 }
 
 .h4--logo {
@@ -233,22 +244,21 @@ a:active {
   justify-content: flex-end;
 }
 
-.containerIndex {
+.container--Index {
   display: flex;
+  flex-direction: inline;
   margin: 16px;
   padding: var(--padding-projectpage);
-  gap: 16px;
-  grid-template-columns: 50dvw auto;
+  gap: 1rem;  
   align-items: center;
   width: auto;
-  height: calc(100dvh - var(--nav-height));
+  height: calc(90dvh - var(--nav-height));
 }
 
 .indexItem {
   display: flex;
   flex-direction: column;
-  gap: 1em;
-  width: auto;
+  width: 50%;
   flex-grow: 1;
 }
 
@@ -266,10 +276,23 @@ a:active {
   flex-wrap: wrap;
   margin: 16px;
   padding: clamp(52px, 3vw, 96px) var(--padding--lr) 0;
-  column-gap: 10vw;
+  column-gap: 5vw;
   row-gap: 4vw;
   justify-content: center;
   align-items: center;
+}
+
+.button{
+
+}
+
+.button::after{
+
+
+}
+
+.button:hover{
+  
 }
 
 .imgContainer {
@@ -289,7 +312,6 @@ a:active {
   height: auto;
   transition: transform 0.35s ease-in-out;
   justify-self: center;
-  filter: grayscale();
   animation: fade-up 0.5s;
   animation-timeline: view();
   animation-range: entry;
@@ -297,7 +319,6 @@ a:active {
 
 .thumbnail:hover {
   transform: scale(0.9);
-  filter: grayscale(0);
 }
 
 .projectContainer {
@@ -318,6 +339,7 @@ a:active {
   padding: 0 var(--padding--lr);
   flex-basis: 25%;
   height: fit-content;
+  width: 100%;
   overflow-y: visible;
   top: 10em;
 }
@@ -336,13 +358,13 @@ a:active {
 }
 
 .imgContainer--projects{
-  width: auto;
+  width: calc(auto/2);
 }
 
 .img--project {
   display: block;
   object-fit: contain;
-  width: 100%;
+  width: 75%;
   max-width: 1000px;
   height: auto;
   justify-self: center;
@@ -373,4 +395,15 @@ a:active {
   flex-grow: 1;
   flex-direction: column;
   gap: 1em;
+}
+
+@media (max-width: 600px){
+
+  .displayContainer{
+    flex-direction: column;
+  }
+
+  .imgContainer{
+    width: 100%;
+  }
 }
