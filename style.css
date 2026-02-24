@@ -142,7 +142,7 @@ h5 {
 
 p {
   font-family: "MyBodyFont";
-  font-size: clamp(1rem, 1.1vw, 1.2rem);
+  font-size: clamp(.6rem, .9vw, 1.2rem);
   width: clamp(30ch, 40vw, 50ch);
   color: var(--clr-fontalt);
 }
@@ -184,6 +184,7 @@ ul {
 
 li {
   display: inline-block;
+  position: relative;
   font-family: "MyHeadFont";
   color: var(--clr-fontalt);
   font-size: 1rem;
@@ -192,19 +193,19 @@ li {
 
 li::after {
   content: "";
-  position: relative;
-  color: var(--clr-fontmain);
-  animation: cubic-bezier(.36,-.05,.07,1);
+  position: absolute;
   width: 100%;
-  height: 1.2px;
+  transform: scaleX(0);
+  height: 1px;
   bottom: 0;
   left: 0;
+  padding-bottom: 2px;
   background-color: var(--clr-fontmain);
   transform-origin: bottom left;
-  transform: scaleX(0);
+  transition: transform 0.5s cubic-bezier (.36,-.05,.07,1);
 }
 
-li::after:hover {
+li:hover::after {
   transform: scaleX(1);
 }
 
