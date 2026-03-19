@@ -65,6 +65,12 @@
   font-weight: 400;
 }
 
+::selection {
+  background-color: #000000;
+  color: var(--clr-background);
+  box-shadow: 4px 4px 0 2px #000000;
+}
+
 body {
   margin: 0 24px 0;
   padding: 0;
@@ -142,7 +148,7 @@ h5 {
 
 p {
   font-family: "MyBodyFont";
-  font-size: clamp(.6rem, .9vw, 1.2rem);
+  font-size: clamp(.6rem, .9vw, .8rem);
   width: clamp(30ch, 40vw, 50ch);
   color: var(--clr-fontalt);
 }
