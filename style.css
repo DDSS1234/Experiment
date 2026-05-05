@@ -85,7 +85,7 @@ body {
 h1 {
   font-family: "MyBodyFont";
   color: var(--clr-fontmain);
-  text-align: center;
+  text-align: left;
   text-justify: top;
   font-weight: 500;
   font-size: 4rem;
@@ -131,19 +131,19 @@ h4 {
   font-size: clamp(1rem, 2vw, 1.5rem);
 }
 
-h5 {
-  font-family: "MyHeadFont";
-  color: var(--clr-fontmain);
-  text-align: left;
-  font-size: 1rem, 2vw, 1.3rem;
-}
-
 .h4--logo {
-    font-size: clamp(1rem, 1.25vw, 1.4rem);
+    font-size: clamp(1rem, 2vw, 1.4rem);
 }
 
 .h4--logo:hover {
   
+}
+
+h5 {
+  font-family: "MyHeadFont";
+  color: var(--clr-fontmain);
+  text-align: left;
+  font-size: clamp(.9rem, 1.5vw, 1.2rem);
 }
 
 p {
@@ -413,4 +413,6 @@ a:active {
   .imgContainer{
     width: 100%;
   }
+
+  
 }
