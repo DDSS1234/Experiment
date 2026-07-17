@@ -133,6 +133,7 @@ h4 {
 
 .h4--logo {
     font-size: clamp(1rem, 2vw, 1.4rem);
+    font-weight: 100;
 }
 
 .h4--logo:hover {
@@ -177,6 +178,43 @@ p {
 .desc {
   color: var(--clr-fontalt);
   font-size: 1.2rem;
+}
+
+.enter {
+  position: relative;
+  display: inline-block;   /* so the line only spans the text, not the full row */
+  cursor: pointer;
+}
+
+/* the line = a pseudo-element, not a real element */
+.enter::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;   /* grows FROM the left */
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* the arrow */
+.enter .arrow {
+  display: inline-block;    /* REQUIRED — transforms don't apply to inline elements */
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* trigger */
+.enter:hover::after {
+  transform: scaleX(1);
+}
+
+.enter:hover .arrow {
+  transform: translateX(4px);  /* move the arrow to the right */
+  transform: rotate(-45deg);
+  transition-delay: 0.15s;  /* arrow waits for the line to run first */
 }
 
 ul {
