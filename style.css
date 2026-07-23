@@ -160,7 +160,6 @@ p {
   font-size: clamp(.6rem, 1vw, .8rem);
   padding: clamp(16px, 2vw, 48px) clamp(16px, 2vw, 48px) clamp(16px, 2vw, 48px);
   text-align: right;
-
 }
 
 .p--indent {
@@ -171,8 +170,8 @@ p {
   font-family: "MyBodyFont";
   color: var(--clr-fontmain);
   margin: 0px;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  width: clamp(30ch, 2vw, 50ch);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  width: clamp(50ch, 2vw, 75ch);
 }
 
 .desc {
@@ -240,13 +239,12 @@ li::after {
   position: absolute;
   width: 100%;
   transform: scaleX(0);
-  height: 1px;
+  height: 2px;
   bottom: 0;
   left: 0;
-  padding-bottom: 2px;
   background-color: var(--clr-fontmain);
   transform-origin: bottom left;
-  transition: transform 0.5s cubic-bezier (.36,-.05,.07,1);
+  transition: transform 0.5s cubic-bezier(.36,-.05,.07,1);
 }
 
 li:hover::after {
@@ -428,6 +426,8 @@ a:active {
 .about--container {
   display: flex;
   width: auto;
+  height: auto;
+  flex-direction: row;
   gap: 5%;
   justify-content: center;
   align-items: center;
@@ -440,6 +440,8 @@ a:active {
   flex-grow: 1;
   flex-direction: column;
   gap: 1em;
+  width: 50%;
+  height: 100%;
 }
 
 @media (max-width: 600px){
