@@ -450,6 +450,7 @@ a:active {
   gap: 1em;
   height: 100%;
   align-content: start;
+  justify-content: center;
 }
 
 @media (max-width: 600px){
