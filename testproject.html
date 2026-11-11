@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Alexander Rosno">
+<meta name="description" content="Architectural Paper: a wall paneling system that explores the use of paper as a building material.">
+<title>Architectural Paper (test) | Alexander Rosno</title>
+
+<!--
+  TEST PROJECT PAGE, built from PaperPanel.html.
+  Self-contained like test.html: it does not load style.css.
+  Colours follow the values you set in test.html (#ebebeb paper, #2e2e2e ink).
+
+  To make another project from this file, change three things:
+    1. the summary (title, facts, text)
+    2. the figures inside <div class="stream made">
+    3. the figures inside <div class="stream making">
+  The script at the bottom never needs editing.
+-->
+
+<style>
+@font-face { font-family: "Geist"; src: url("assets/fonts/geist/Geist-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Geist"; src: url("assets/fonts/geist/Geist-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant/cormorant-v24-latin-300italic.woff2") format("woff2"); font-weight: 300; font-style: italic; font-display: swap; }
+
+:root {
+  --paper: #ebebeb;
+  --ink: #2e2e2e;
+  --graphite: #626262;
+  --rule: #cfcfcf;
+  --red: #e8291c;
+  --pad: clamp(16px, 2.6vw, 44px);
+  --g: clamp(6px, 0.7vw, 12px);          /* half the gutter either side of the seam */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: auto; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.55 "Geist", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  overflow-anchor: none;                 /* the script keeps the image you are looking at in place */
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+/* ---------- header (same as test.html) ---------- */
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 20px var(--pad) 0; }
+.top .name { text-decoration: none; letter-spacing: 0.01em; font-size: clamp(1rem, 1.4vw, 1.25rem); }
+.top nav ul { display: flex; gap: clamp(1rem, 2vw, 2rem); list-style: none; margin: 0; padding: 0; }
+.top nav a { text-decoration: none; padding-bottom: 2px; background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .3s ease; }
+.top nav a:hover, .top nav a[aria-current] { background-size: 100% 1px; }
+
+/* ---------- reviewer notes (delete for the real page) ---------- */
+.notes { margin: 18px var(--pad) 0; border: 1px dashed var(--red); padding: 10px 14px; font-size: .875rem; max-width: 62ch; }
+.notes summary { cursor: pointer; font-weight: 500; }
+.notes ol { margin: .6em 0 .2em; padding-left: 1.2em; }
+.notes li { margin: .25em 0; }
+
+/* ---------- page layout: summary beside two streams ---------- */
+.project {
+  display: grid;
+  grid-template-columns: minmax(250px, 25%) minmax(0, 1fr);
+  gap: clamp(24px, 3.4vw, 60px);
+  align-items: start;
+  padding: clamp(24px, 3.4vw, 52px) var(--pad) 0;
+}
+
+/* ---------- summary ---------- */
+.summary .back { font-size: .875rem; color: var(--graphite); text-underline-offset: 3px; }
+.summary h1 {
+  margin: .5em 0 0;
+  font: italic 300 clamp(2.6rem, 4.3vw, 4rem)/0.98 "Cormorant", "Times New Roman", serif;
+  letter-spacing: -0.012em;
+}
+.facts {
+  display: grid; grid-template-columns: auto 1fr; gap: 2px 1.25em;
+  margin: 1.5em 0; padding: .75em 0;
+  border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+  font-size: .9375rem;
+}
+.facts dt { color: var(--graphite); }
+.facts dd { margin: 0; }
+.summary p { margin: 0 0 1em; max-width: 46ch; }
+.summary p i { font-style: italic; }
+
+.show { margin-top: 1.75em; font-size: .875rem; }
+.show .label { display: block; color: var(--graphite); margin-bottom: 6px; }
+.seg { display: inline-flex; border: 1px solid var(--ink); }
+.seg button { all: unset; cursor: pointer; padding: 5px 12px; line-height: 1.3; border-left: 1px solid var(--ink); }
+.seg button:first-child { border-left: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.seg button:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.show .hint { margin: 8px 0 0; color: var(--graphite); max-width: 34ch; }
+
+@media (min-width: 901px) and (min-height: 860px) {
+  .summary { position: sticky; top: 24px; }
+}
+
+/* ---------- streams ---------- */
+.streams { position: relative; display: flex; align-items: flex-start; --s: 0.62; }
+.stream { min-width: 0; overflow: clip; container-type: inline-size; }
+.stream.made { flex: 0 0 calc(var(--s) * 100%); }
+.stream.making { flex: 1 1 0; }
+.stream.made .in { padding-right: var(--g); }
+.stream.making .in { padding-left: var(--g); }
+
+.stream h2 {
+  position: sticky; top: 0; z-index: 3;
+  margin: 0; padding: 9px 0 10px;
+  background: var(--paper); border-top: 1px solid var(--ink);
+  font: 500 .875rem/1.3 "Geist", sans-serif; white-space: nowrap;
+}
+.stream h2 span { font-weight: 400; color: var(--graphite); margin-left: .6em; }
+
+.figs { columns: 1; column-gap: calc(var(--g) * 2); }
+figure { margin: 0 0 calc(var(--g) * 2 + 10px); break-inside: avoid; }
+figure.duo, figure.quad { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--g) * 1); }
+figure.duo figcaption, figure.quad figcaption { grid-column: 1 / -1; }
+.plate { all: unset; display: block; width: 100%; cursor: zoom-in; background: #dcdcdc; }
+.plate:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.plate img { display: block; width: 100%; height: auto; -webkit-user-drag: none; }
+.streams[data-full] .plate { cursor: zoom-out; }
+figcaption { margin-top: 7px; font-size: .8125rem; line-height: 1.35; color: var(--graphite); }
+
+/* a wide stream becomes a two-column gallery, a sliver drops its text */
+@container (min-width: 760px) { .figs { columns: 2; } }
+@container (max-width: 250px) { .stream h2 span { display: none; } }
+@container (max-width: 170px) { figcaption { display: none; } figure { margin-bottom: calc(var(--g) * 2); } }
+
+/* ---------- the seam ---------- */
+.seam { position: absolute; top: 0; bottom: 0; left: calc(var(--s) * 100%); width: 0; pointer-events: none; }
+.seam::before { content: ""; position: absolute; z-index: 2; top: 0; bottom: 0; left: -0.5px; width: 1px; background: var(--red); }
+.knob {
+  all: unset; pointer-events: auto; cursor: ew-resize; touch-action: none; user-select: none; -webkit-user-select: none;
+  position: sticky; z-index: 4; top: 52vh; display: block;
+  width: 36px; height: 36px; margin-left: -18px; border-radius: 50%;
+  background: var(--red);
+}
+.knob::before, .knob::after { content: ""; position: absolute; top: 50%; width: 0; height: 0; border: 5px solid transparent; transform: translateY(-50%); }
+.knob::before { left: 5px; border-right-color: #fff; }
+.knob::after { right: 5px; border-left-color: #fff; }
+.knob:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.knob span {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: var(--paper); padding: 2px 7px; font-size: .8125rem; line-height: 1.3; white-space: nowrap;
+  border: 1px solid var(--red);
+}
+.knob .l { right: 44px; }
+.knob .r { left: 44px; }
+.seam.near-left .l, .seam.near-right .r { display: none; }
+
+/* ---------- next ---------- */
+.next {
+  margin: clamp(40px, 6vw, 96px) var(--pad) 0; padding-top: 14px; border-top: 1px solid var(--ink);
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem 2rem; flex-wrap: wrap;
+}
+.next .to { text-decoration: none; display: block; }
+.next .to small { display: block; font-size: .875rem; color: var(--graphite); }
+.next .to span { font: italic 300 clamp(2rem, 4.4vw, 3.75rem)/1.05 "Cormorant", serif; }
+.next .to:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+.next .all { font-size: .9375rem; text-underline-offset: 3px; }
+
+footer { padding: clamp(32px, 5vw, 64px) var(--pad) 28px; color: var(--graphite); font-size: .8125rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+footer p { margin: 0; }
+
+@media (max-width: 900px) {
+  .project { grid-template-columns: minmax(0, 1fr); }
+  .summary p { max-width: 62ch; }
+}
+@media (max-width: 720px) {
+  .knob { width: 30px; height: 30px; margin-left: -15px; }
+  .knob::before { left: 3px; } .knob::after { right: 3px; }
+  .knob .l { right: 36px; } .knob .r { left: 36px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+
+<body>
+
+<header class="top">
+  <a class="name" href="index.html">ALEXANDER ROSNO</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="test.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<details class="notes">
+  <summary>Test project page: what to try</summary>
+  <ol>
+    <li>Drag the red dot. The finished work and the process trade width instead of sharing one mixed column.</li>
+    <li>Click any image. Its side takes the full width and turns into a two-column gallery. Click again to go back.</li>
+    <li>Made, Both and Making under the text do the same thing from the keyboard.</li>
+    <li>Narrow the window to phone width. The text moves on top and the two streams sit side by side like a contact sheet.</li>
+    <li>The text is from PaperPanel.html with the first paragraph trimmed. The captions are my descriptions of each photo, so rewrite them.</li>
+  </ol>
+</details>
+
+<main>
+  <article class="project">
+
+    <!-- 1. SUMMARY -->
+    <div class="summary">
+      <a class="back" href="test.html">All work</a>
+      <h1>Architectural Paper</h1>
+
+      <dl class="facts">
+        <dt>Year</dt><dd>2025</dd>
+        <dt>Discipline</dt><dd>Research</dd>
+      </dl>
+
+      <p>The <i>Paper Panel</i> is a wall paneling system that explores the use of paper as a building material, in a way that is both sustainable and aesthetically pleasing.</p>
+      <p>My hometown of Eagle, WI, is home to the museum Old World Wisconsin, which has been a major inspiration for this work. The linear history of the agricultural barn showcases cultural and social shifts within the state over time in connection with construction methodology. This can be seen in the early fieldstone foundations, in a period when money had less governance and the farmer required more self-sufficiency for the establishment of his or her farmstead. These foundations began to disappear with the advent of cinder blocks, as the dollar&rsquo;s use ushered in expediency. Heavy timber, and its community barn raisings, disappeared with the rise of light-wood framing.</p>
+
+      <div class="show">
+        <span class="label" id="show-label">Show this project as</span>
+        <div class="seg" role="group" aria-labelledby="show-label">
+          <button type="button" data-seam="1" aria-pressed="false">Made</button>
+          <button type="button" data-seam="both" aria-pressed="true">Both</button>
+          <button type="button" data-seam="0" aria-pressed="false">Making</button>
+        </div>
+        <p class="hint">Or drag the red dot, or click an image to give its side the full width.</p>
+      </div>
+    </div>
+
+    <div class="streams" id="streams">
+
+      <!-- 2. MADE: the finished work -->
+      <div class="stream made" id="made">
+        <div class="in">
+          <h2>Made<span>the finished panels</span></h2>
+          <div class="figs">
+            <figure>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Panel-Whole.jpg" width="1200" height="1200" alt="A tall cast paper panel, mottled black and white, standing against a grey backdrop" decoding="async"></button>
+              <figcaption>Cast panel, standing</figcaption>
+            </figure>
+            <figure class="duo">
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/PaperLargePanel.jpg" width="1200" height="1200" alt="The face of the panel seen at an angle, dark pulp bleeding into white" loading="lazy" decoding="async"></button>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/PaperPanelThickness.jpg" width="1200" height="1200" alt="The edge of a thick paper slab resting on a table" loading="lazy" decoding="async"></button>
+              <figcaption>Face and edge</figcaption>
+            </figure>
+            <figure>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Closeup.jpg" width="1089" height="1744" alt="Close view of the panel surface, fibrous and cloud-like" loading="lazy" decoding="async"></button>
+              <figcaption>Surface, close up</figcaption>
+            </figure>
+            <figure>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Light1.jpg" width="1000" height="1000" alt="A corner of the panel lit from behind, with a thin patch glowing white" loading="lazy" decoding="async"></button>
+              <figcaption>Lit from behind</figcaption>
+            </figure>
+            <figure class="quad">
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Light2.jpg" width="512" height="512" alt="Backlit paper with dark rectangular scraps embedded in it" loading="lazy" decoding="async"></button>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Light5.jpg" width="512" height="512" alt="Backlit paper with three dark rounded shapes" loading="lazy" decoding="async"></button>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Light4.jpg" width="512" height="512" alt="Backlit paper with a cluster of dark strips" loading="lazy" decoding="async"></button>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Light6.jpg" width="512" height="512" alt="Backlit paper with a faint looping line pressed into it" loading="lazy" decoding="async"></button>
+              <figcaption>Backlit studies</figcaption>
+            </figure>
+            <figure class="duo">
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Paper_Cast.webp" width="1201" height="1600" alt="A ribbed cast paper panel photographed flat on black" loading="lazy" decoding="async"></button>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Wall_Panel_1.jpg" width="1200" height="1600" alt="Close view of the ribs on the cast panel" loading="lazy" decoding="async"></button>
+              <figcaption>Ribbed cast, whole and detail</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. MAKING: drawings, moulds, process -->
+      <div class="stream making" id="making">
+        <div class="in">
+          <h2>Making<span>moulds, pulp, press</span></h2>
+          <div class="figs">
+            <figure>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/Mould1.png" width="1200" height="1600" alt="Exploded diagram of a two-part mould, with force applied from above and water flowing out below" decoding="async"></button>
+              <figcaption>Mould diagram: force in, water out</figcaption>
+            </figure>
+            <figure>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/MouldFoam.jpg" width="1200" height="1600" alt="A perforated, faceted mould surface in raking light" loading="lazy" decoding="async"></button>
+              <figcaption>Perforated mould face</figcaption>
+            </figure>
+            <figure class="duo">
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/process2.jpg" width="1008" height="1344" alt="A plywood mould frame on a workbench in the shop" loading="lazy" decoding="async"></button>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/process1.jpg" width="1512" height="2016" alt="The same frame outdoors, filled with pale wet pulp" loading="lazy" decoding="async"></button>
+              <figcaption>Mould frame, empty and filled</figcaption>
+            </figure>
+            <figure class="duo">
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/IMG_1440.jpg" width="1512" height="2016" alt="Alex lifting a screen with a fresh sheet out of a vat of pulp" loading="lazy" decoding="async"></button>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/IMG_3663.jpg" width="1512" height="2016" alt="A wet sheet on mesh, with shredded printed paper still visible" loading="lazy" decoding="async"></button>
+              <figcaption>Pulling a sheet, and the wet sheet</figcaption>
+            </figure>
+            <figure>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/IMG_3794.jpg" width="1512" height="2016" alt="A small plywood press driven by a red bottle jack" loading="lazy" decoding="async"></button>
+              <figcaption>Press with a bottle jack</figcaption>
+            </figure>
+            <figure>
+              <button class="plate" type="button"><img src="assets/images/PaperPanel/IMG_4307.jpg" width="1179" height="1579" alt="A CNC router cutting into a block of dried paper, fibre flying" loading="lazy" decoding="async"></button>
+              <figcaption>Milling a dried block on the CNC</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="seam" id="seam">
+        <button class="knob" id="knob" type="button" role="slider"
+                aria-label="Seam between made and making" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62"
+                aria-valuetext="62 percent made">
+          <span class="l" aria-hidden="true">made</span><span class="r" aria-hidden="true">making</span>
+        </button>
+      </div>
+    </div>
+
+  </article>
+
+  <nav class="next" aria-label="More work">
+    <a class="to" href="CustodesPassionis.html"><small>Next project</small><span>Custodes Passionis</span></a>
+    <a class="all" href="test.html">All work</a>
+  </nav>
+</main>
+
+<footer>
+  <p>&copy; 2026 Alexander Rosno</p>
+  <p>testproject.html, a prototype for review</p>
+</footer>
+
+<script>
+/* The seam. Nothing here is specific to this project. */
+(() => {
+  const $ = s => document.querySelector(s);
+  const streams = $("#streams"), made = $("#made"), making = $("#making"), seamEl = $("#seam"), knob = $("#knob");
+  const presets = [...document.querySelectorAll("[data-seam]")];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clamp = v => Math.max(0, Math.min(1, v));
+  /* "Both" gives the finished work the larger share on a wide screen, an even split on a phone */
+  const both = () => (matchMedia("(max-width: 720px)").matches ? 0.5 : 0.62);
+  const preset = b => (b.dataset.seam === "both" ? both() : parseFloat(b.dataset.seam));
+  let seam = both(), raf = 0;
+
+  /* Pick the figure nearest the middle of the screen, so it can be held still while the columns resize. */
+  function nearest(col) {
+    let best = null, d = Infinity; const mid = innerHeight / 2;
+    col.querySelectorAll("figure").forEach(f => {
+      const r = f.getBoundingClientRect();
+      if (r.height < 4) return;
+      const dist = Math.abs((r.top + r.bottom) / 2 - mid);
+      if (dist < d) { d = dist; best = f; }
+    });
+    return best;
+  }
+  const alive = f => !!f && f.getBoundingClientRect().height >= 4;
+
+  /* "hold" is the figure kept still on screen while the columns change width */
+  let hold = null;
+  const grab = f => { hold = alive(f) ? { el: f, y: f.getBoundingClientRect().top } : null; };
+
+  function set(v) {
+    let el = null, y = 0;
+    if (hold && alive(hold.el)) { el = hold.el; y = hold.y; }
+    else {
+      el = nearest(seam >= 0.5 ? made : making) || nearest(seam >= 0.5 ? making : made);
+      if (el) y = el.getBoundingClientRect().top;
+    }
+    seam = clamp(v);
+    streams.style.setProperty("--s", seam);
+    if (alive(el)) {
+      const shift = el.getBoundingClientRect().top - y;
+      if (Math.abs(shift) > 0.5) scrollBy(0, shift);
+    }
+    const w = streams.getBoundingClientRect().width;
+    seamEl.classList.toggle("near-left", seam * w < 70);
+    seamEl.classList.toggle("near-right", (1 - seam) * w < 80);
+    if (seam >= 0.995) streams.dataset.full = "made";
+    else if (seam <= 0.005) streams.dataset.full = "making";
+    else delete streams.dataset.full;
+    const pct = Math.round(seam * 100);
+    knob.setAttribute("aria-valuenow", pct);
+    knob.setAttribute("aria-valuetext", pct + " percent made");
+    presets.forEach(b => b.setAttribute("aria-pressed", String(Math.abs(preset(b) - seam) < 0.005)));
+  }
+
+  function glide(to, fig) {
+    cancelAnimationFrame(raf);
+    const grows = to > seam ? made : making, other = to > seam ? making : made;
+    grab(fig || nearest(grows) || nearest(other));
+    if (reduce) { set(to); hold = null; return; }
+    const from = seam, t0 = performance.now(), dur = 520;
+    const step = now => {
+      const t = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - t, 3);
+      set(from + (to - from) * e);
+      if (t < 1) raf = requestAnimationFrame(step); else hold = null;
+    };
+    raf = requestAnimationFrame(step);
+  }
+
+  /* drag */
+  knob.addEventListener("pointerdown", e => {
+    e.preventDefault();                       /* no text selection or image drag while pulling the seam */
+    knob.focus({ preventScroll: true });
+    cancelAnimationFrame(raf);
+    knob.setPointerCapture(e.pointerId);
+    grab(nearest(seam >= 0.5 ? made : making));
+    const move = ev => {
+      const r = streams.getBoundingClientRect();
+      set((ev.clientX - r.left) / r.width);
+    };
+    const up = () => {
+      knob.removeEventListener("pointermove", move);
+      knob.removeEventListener("pointerup", up);
+      knob.removeEventListener("pointercancel", up);
+      hold = null;
+      /* a column too thin to read snaps shut */
+      const w = streams.getBoundingClientRect().width;
+      if (seam > 0 && seam * w < 110) glide(0);
+      else if (seam < 1 && (1 - seam) * w < 110) glide(1);
+    };
+    knob.addEventListener("pointermove", move);
+    knob.addEventListener("pointerup", up);
+    knob.addEventListener("pointercancel", up);
+  });
+  streams.addEventListener("dragstart", e => e.preventDefault());
+
+  /* keyboard */
+  knob.addEventListener("keydown", e => {
+    const k = { ArrowLeft: -0.04, ArrowRight: 0.04, ArrowDown: -0.04, ArrowUp: 0.04 }[e.key];
+    if (k) { set(seam + k); e.preventDefault(); }
+    if (e.key === "Home") { set(0); e.preventDefault(); }
+    if (e.key === "End") { set(1); e.preventDefault(); }
+  });
+
+  /* presets */
+  presets.forEach(b => b.addEventListener("click", () => glide(preset(b))));
+
+  /* click an image: its side takes the full width, click again to return */
+  streams.querySelectorAll(".plate").forEach(p => {
+    const side = p.closest(".stream") === made ? "made" : "making";
+    const img = p.querySelector("img");
+    p.setAttribute("aria-label", (img ? img.alt + ". " : "") + "Widen the " + side + " side.");
+    p.addEventListener("click", () => {
+      const fig = p.closest("figure");
+      if (streams.dataset.full === side) glide(both(), fig);
+      else glide(side === "made" ? 1 : 0, fig);
+    });
+  });
+
+  set(seam);
+})();
+</script>
+</body>
+</html>

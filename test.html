@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Alexander Rosno">
+<meta name="description" content="Test page: one index for art, scenic, architecture and research work, with a seam that splits each project into the finished piece and how it was made.">
+<title>Work (test) | Alexander Rosno</title>
+
+<!--
+  TEST PAGE. Self-contained on purpose: it does not load style.css, so nothing
+  here can break the existing pages. Everything on the page is drawn from the
+  PROJECTS list in the script at the bottom. Edit that list to change the page.
+  Paths are relative (assets/...) so it works from Live Server or opened directly.
+-->
+
+<style>
+@font-face { font-family: "Geist"; src: url("assets/fonts/geist/Geist-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Geist"; src: url("assets/fonts/geist/Geist-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Cormorant"; src: url("assets/fonts/cormorant/cormorant-v24-latin-300italic.woff2") format("woff2"); font-weight: 300; font-style: italic; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrains_Mono/JetBrainsMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+:root {
+  --paper: #ffffff;
+  --ink: #000000;
+  --graphite: #6a6a6a;
+  --faint: #c9c9c9;
+  --rule: #dedede;
+  --board: #efefef;      /* the grey that drawings sit on */
+  --red: #e8291c;        /* the red already used in the section and site drawings */
+  --pad: clamp(16px, 2.6vw, 44px);
+  --gap: clamp(8px, 0.9vw, 14px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.5 "Geist", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+/* ---------- header ---------- */
+.top {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  padding: 20px var(--pad) 0;
+}
+.top .name { text-decoration: none; letter-spacing: 0.01em; font-size: clamp(1rem, 1.4vw, 1.25rem); }
+.top nav ul { display: flex; gap: clamp(1rem, 2vw, 2rem); list-style: none; margin: 0; padding: 0; }
+.top nav a { text-decoration: none; padding-bottom: 2px; background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .3s ease; }
+.top nav a:hover, .top nav a[aria-current] { background-size: 100% 1px; }
+
+/* ---------- reviewer notes (delete for the real page) ---------- */
+.notes { margin: 18px var(--pad) 0; border: 1px dashed var(--red); padding: 10px 14px; font-size: .875rem; max-width: 62ch; }
+.notes summary { cursor: pointer; font-weight: 500; }
+.notes ol { margin: .6em 0 .2em; padding-left: 1.2em; }
+.notes li { margin: .25em 0; }
+.notes code { font-family: "JetBrains Mono", monospace; font-size: .8125rem; }
+
+/* ---------- intro ---------- */
+.intro { padding: clamp(24px, 3.4vw, 52px) var(--pad) 0; }
+.intro p { margin: 0; max-width: 40ch; font-size: clamp(1rem, 1.35vw, 1.1875rem); line-height: 1.45; }
+
+/* ---------- stage: hero words + wall share one seam ---------- */
+.stage { position: relative; padding: clamp(16px, 2.4vw, 32px) var(--pad) 0; --s: 0.62; }
+
+.words {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 0 0.34em;
+  margin: 0; padding: 0; list-style: none;
+  font-size: clamp(2.75rem, 6.6vw, 6.25rem);
+  line-height: 1.04;
+}
+.word {
+  all: unset; cursor: pointer; display: inline-flex; align-items: flex-start;
+  transition: color .25s ease;
+}
+.word:focus-visible { outline: 2px solid var(--red); outline-offset: 6px; }
+.word .stack { display: inline-grid; align-items: baseline; justify-items: start; }
+.word .stack > span { grid-area: 1 / 1; white-space: nowrap; }
+.word .w-made {
+  font-family: "Cormorant", "Times New Roman", serif; font-style: italic; font-weight: 300;
+  letter-spacing: -0.012em;
+  clip-path: inset(-30% calc(100% - var(--cut, 100%)) -30% -30%);
+}
+.word .w-making {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: calc(1em * var(--fit, 0.6));
+  letter-spacing: -0.03em;
+  clip-path: inset(-30% -30% -30% var(--cut, 100%));
+}
+.word[data-side="made"] .w-made { clip-path: none; }
+.word[data-side="made"] .w-making { visibility: hidden; }
+.word[data-side="making"] .w-making { clip-path: none; }
+.word[data-side="making"] .w-made { visibility: hidden; }
+.word .n { font: 500 0.875rem/1 "Geist", sans-serif; margin: 0.9em 0 0 0.35em; color: var(--graphite); font-variant-numeric: tabular-nums; }
+.words.filtered .word[aria-pressed="false"] { color: var(--faint); }
+.words.filtered .word[aria-pressed="false"] .n { color: var(--faint); }
+.words.filtered .word[aria-pressed="false"]:hover { color: var(--graphite); }
+
+/* ---------- control strip ---------- */
+.controls {
+  position: relative; z-index: 5; background: var(--paper);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px;
+  margin-top: clamp(14px, 2vw, 28px); padding: 10px 0;
+  border-top: 1px solid var(--ink);
+  font-size: .875rem;
+}
+.controls .left, .controls .right { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+.status { margin: 0; color: var(--graphite); }
+.status button { all: unset; cursor: pointer; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; margin-left: .4em; }
+.status button:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+.seg { display: inline-flex; border: 1px solid var(--ink); }
+.seg button {
+  all: unset; cursor: pointer; padding: 5px 12px; line-height: 1.3;
+  border-left: 1px solid var(--ink);
+}
+.seg button:first-child { border-left: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.seg button:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.seg-label { color: var(--graphite); }
+
+/* ---------- the seam ---------- */
+.seam {
+  position: absolute; top: 0; bottom: 0; width: 0;
+  left: calc(var(--pad) + (100% - 2 * var(--pad)) * var(--s));
+  pointer-events: none;
+}
+.seam::before { content: ""; position: absolute; z-index: 2; top: 0; bottom: 0; left: -0.5px; width: 1px; background: var(--red); }
+.knob {
+  all: unset; pointer-events: auto; cursor: ew-resize; touch-action: none;
+  position: sticky; z-index: 4; top: 52vh; display: block;
+  width: 36px; height: 36px; margin-left: -18px; border-radius: 50%;
+  background: var(--red);
+}
+.knob::before, .knob::after {
+  content: ""; position: absolute; top: 50%; width: 0; height: 0;
+  border: 5px solid transparent; transform: translateY(-50%);
+}
+.knob::before { left: 5px; border-right-color: #fff; }
+.knob::after { right: 5px; border-left-color: #fff; }
+.knob:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.knob span {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: var(--paper); padding: 2px 7px; font-size: .8125rem; line-height: 1.3; white-space: nowrap;
+  border: 1px solid var(--red);
+}
+.knob .l { right: 44px; }
+.knob .r { left: 44px; }
+.seam.near-left .l, .seam.near-right .r { display: none; }
+.stage[data-view="index"] .seam { display: none; }
+
+/* ---------- wall ---------- */
+.wall { margin: var(--gap) 0 0; padding: 0; list-style: none; columns: 4; column-gap: var(--gap); }
+.tile { break-inside: avoid; margin: 0 0 clamp(18px, 2vw, 30px); }
+.plate {
+  position: relative; display: block; overflow: hidden; background: var(--board);
+  text-decoration: none;
+}
+.plate::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.09); pointer-events: none; }
+.layer { position: absolute; inset: 0; display: block; }
+.layer img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.layer.contain { background: var(--board); padding: 7%; }
+.layer.contain img { object-fit: contain; mix-blend-mode: multiply; }
+.layer.made { clip-path: inset(0 calc(100% - var(--cut, 100%)) 0 0); }
+a.plate:hover .layer img { filter: contrast(1.08); }
+
+/* placeholders for work that has no photos in the folder yet */
+.ph { display: flex; align-items: flex-end; padding: 12px; font-size: .8125rem; line-height: 1.35; }
+.ph.made { background: #161616 repeating-linear-gradient(135deg, transparent 0 13px, rgba(255,255,255,.07) 13px 14px); color: #fff; }
+.ph.making {
+  clip-path: inset(0 0 0 var(--cut, 100%));
+  align-items: flex-start;
+  background-color: var(--board);
+  background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px);
+  background-size: 22px 22px; color: var(--ink); justify-content: flex-end; text-align: right;
+}
+.ph b { font-weight: 500; display: block; }
+
+.cap { position: relative; z-index: 3; background: var(--paper); margin: 0; padding-top: 8px; font-size: .9375rem; line-height: 1.35; }
+.cap .t { font-weight: 500; text-decoration: none; }
+.cap a.t:hover { text-decoration: underline; text-underline-offset: 3px; }
+.cap .m { display: block; color: var(--graphite); font-size: .8125rem; }
+
+/* ---------- index (list) view ---------- */
+.index { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--rule); }
+.row {
+  display: grid; grid-template-columns: 112px minmax(0, 1.1fr) minmax(0, .9fr) minmax(0, 2fr) 7.5em;
+  gap: 0 20px; align-items: center;
+  padding: 10px 0; border-top: 1px solid var(--rule);
+  text-decoration: none;
+}
+a.row:hover { background: #f6f6f6; }
+.row .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.row .pair > span { position: relative; display: block; aspect-ratio: 1; overflow: hidden; background: var(--board); }
+.row .pair img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.row .pair .ph { padding: 0; clip-path: none; }
+.row .t { font-weight: 500; font-size: 1.0625rem; }
+.row .d, .row .w, .row .y { color: var(--graphite); font-size: .9375rem; }
+.row .y { text-align: right; font-variant-numeric: tabular-nums; }
+
+.stage[data-view="wall"] .index, .stage[data-view="index"] .wall { display: none; }
+
+footer { padding: clamp(32px, 6vw, 80px) var(--pad) 28px; color: var(--graphite); font-size: .8125rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+footer p { margin: 0; }
+
+@media (max-width: 1100px) { .wall { columns: 3; } }
+@media (max-width: 720px) {
+  .wall { columns: 2; }
+  .row { grid-template-columns: 84px minmax(0, 1fr) auto; }
+  .row .w { display: none; }
+  .row .d { grid-column: 2; grid-row: 2; }
+  .row .t { grid-column: 2; }
+  .row .pair { grid-row: 1 / span 2; }
+  .row .y { grid-column: 3; grid-row: 1 / span 2; }
+  .knob { width: 30px; height: 30px; margin-left: -15px; }
+  .knob::before { left: 3px; } .knob::after { right: 3px; }
+  .knob .l { right: 36px; } .knob .r { left: 36px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+
+<body>
+
+<header class="top">
+  <a class="name" href="index.html">ALEXANDER ROSNO</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="test.html" aria-current="page">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<details class="notes">
+  <summary>Test page: what to try</summary>
+  <ol>
+    <li>Drag the red dot left and right. Left of the line is the finished piece, right of it is how it was made.</li>
+    <li>Click Art, Scenic, Architecture or Research to filter. Click the same word again to show everything.</li>
+    <li>Switch between Wall and Index.</li>
+    <li>Open <code>test.html#scenic</code> to land on scenic work only. Each discipline has a link like this to send to a specific audience.</li>
+    <li>The three scenic tiles are placeholders. There are no scenic photos in the folder yet.</li>
+  </ol>
+</details>
+
+<main>
+  <section class="intro" aria-label="About the work">
+    <p>Alex Rosno is a designer and artist combining digital tools with physical making to create spaces and objects.</p>
+  </section>
+
+  <section class="stage" data-view="wall" aria-label="Work">
+    <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">Work</h1>
+
+    <ul class="words" id="words" aria-label="Filter by discipline"></ul>
+
+    <div class="controls">
+      <div class="left">
+        <div class="seg" role="group" aria-label="View">
+          <button type="button" data-view="wall" aria-pressed="true">Wall</button>
+          <button type="button" data-view="index" aria-pressed="false">Index</button>
+        </div>
+        <p class="status" id="status" aria-live="polite"></p>
+      </div>
+      <div class="right" id="seam-presets">
+        <span class="seg-label" id="seam-label">Show each project as</span>
+        <div class="seg" role="group" aria-labelledby="seam-label">
+          <button type="button" data-seam="1" aria-pressed="false">Made</button>
+          <button type="button" data-seam="both" aria-pressed="true">Both</button>
+          <button type="button" data-seam="0" aria-pressed="false">Making</button>
+        </div>
+      </div>
+    </div>
+
+    <ul class="wall" id="wall"></ul>
+    <ul class="index" id="index"></ul>
+
+    <div class="seam" id="seam">
+      <button class="knob" id="knob" type="button" role="slider"
+              aria-label="Seam between made and making" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62"
+              aria-valuetext="62 percent made">
+        <span class="l" aria-hidden="true">made</span><span class="r" aria-hidden="true">making</span>
+      </button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2026 Alexander Rosno</p>
+  <p>test.html, a prototype for review</p>
+</footer>
+
+<script>
+/* -----------------------------------------------------------------------
+   PROJECTS: the only thing to edit.
+   d       one or more of: art, scenic, architecture, research
+   made    the finished piece         making   how it was made (drawing, mould, process)
+   fit     "contain" for line drawings on white, so they are not cropped
+   page    the project page, or "" if it is not built yet
+   Titles, years and one-liners below come from your existing pages and folder
+   names. Blank years are ones I could not find in the files.
+------------------------------------------------------------------------ */
+const IMG = "assets/images/";
+const PROJECTS = [
+  { title: "Opus", d: ["research", "art"], year: "2025 to present", ar: "3/4", page: "CelluloseTable.html",
+    what: "Single-cast furniture and architecture from cellulose fibers",
+    made:   { src: "PaperCube/paper_thumb.jpg", alt: "A hand holding a rough, perforated block of cast paper pulp against black" },
+    making: { src: "celluloseTable/Full.jpg", alt: "A tall ribbed cylindrical form standing on a white surface with a long shadow" } },
+
+  { title: "Custodes Passionis", d: ["architecture"], year: "2023", ar: "3/4", page: "CustodesPassionis.html",
+    what: "Restorative re-use of a bombed 1300s Italian church",
+    made:   { src: "Custodes/Hero.jpg", alt: "A bronze figure lit under a brick arch inside a dark gallery" },
+    making: { src: "Custodes/Section1.jpg", alt: "Section drawing through three stacked gallery floors" } },
+
+  { title: "Aegis", d: ["research"], year: "", ar: "3/4", page: "",
+    what: "House-scale interfaces and AI assistance inside the American home",
+    made:   { src: "Aegis/aegis_thumb.png", alt: "A black pixelated glyph on white" },
+    making: { src: "Aegis/UI_Glyph.png", alt: "Flow diagram of how a habit becomes a glyph symbol", fit: "contain" } },
+
+  { title: "Scenic project 1", d: ["scenic"], year: "", ar: "4/5", page: "", placeholder: true,
+    what: "Placeholder. Add title, production, shop and your role" },
+
+  { title: "School of Agriculture", d: ["architecture"], year: "", ar: "4/5", page: "",
+    what: "",
+    made:   { src: "AgricultureSchool/agriculture_thumb.jpg", alt: "A figure standing in a shaft of light inside a timber barn" },
+    making: { src: "AgricultureSchool/AgStructure.jpg", alt: "Cutaway axonometric of the barn structure with red airflow arrows", fit: "contain" } },
+
+  { title: "Architectural Paper", d: ["research"], year: "2025", ar: "1/1", page: "PaperPanel.html",
+    what: "A wall-panel system cast from recycled paper",
+    made:   { src: "PaperPanel/Panel-Whole.jpg", alt: "A tall black and white cast paper panel standing against a grey backdrop" },
+    making: { src: "PaperPanel/Mould1.png", alt: "Exploded diagram of the two-part mould with force and outflow arrows", fit: "contain" } },
+
+  { title: "Photography", d: ["art"], year: "", ar: "4/5", page: "",
+    what: "",
+    made:   { src: "Photography/Portrait_1.jpg", alt: "A blurred black and white profile portrait with a halftone dot pattern" },
+    making: { src: "Photography/Echo.jpg", alt: "A silhouetted profile in front of a bright textured screen" } },
+
+  { title: "Scenic project 2", d: ["scenic"], year: "", ar: "1/1", page: "", placeholder: true,
+    what: "Placeholder. Add title, production, shop and your role" },
+
+  { title: "AltaSea Robotics", d: ["architecture"], year: "", ar: "4/3", page: "",
+    what: "",
+    made:   { src: "AltaSea/ExteriorSide.jpg", alt: "A pale, blocky building facade with a dark central entrance" },
+    making: { src: "AltaSea/ISOMass.jpg", alt: "Axonometric of the warehouse with the new mass shown in red" } },
+
+  { title: "Polyopoly", d: ["architecture"], year: "", ar: "3/4", page: "",
+    what: "",
+    made:   { src: "Polyopoly/polyopoly_thumb1.jpg", alt: "Black and white view of a stacked tower from below" },
+    making: { src: "Polyopoly/Polyopoly_Tallsection.jpg", alt: "Cutaway axonometric of the tower with residences in red", fit: "contain" } },
+
+  { title: "Scenic project 3", d: ["scenic"], year: "", ar: "3/4", page: "", placeholder: true,
+    what: "Placeholder. Add title, production, shop and your role" },
+];
+const DISCIPLINES = ["art", "scenic", "architecture", "research"];
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const el = (tag, attrs = {}, kids = []) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === false || v == null) continue;
+    if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+  }
+  kids.forEach(k => k && n.append(k));
+  return n;
+};
+const meta = p => cap(p.d.join(" and ")) + (p.year ? ", " + p.year : "");
+
+function layer(p, side) {
+  if (p.placeholder) {
+    const s = el("span", { class: "layer ph " + side });
+    s.append(el("span", {}, [
+      el("b", { text: side === "made" ? "Made" : "Making" }),
+      side === "made" ? "Finished set photo goes here" : "Shop drawing or build photo goes here"
+    ]));
+    return s;
+  }
+  const im = p[side];
+  return el("span", { class: "layer " + side + (im.fit === "contain" ? " contain" : "") }, [
+    el("img", { src: IMG + im.src, alt: im.alt, loading: "lazy", decoding: "async" })
+  ]);
+}
+
+/* ---------- build: words ---------- */
+const words = $("#words");
+DISCIPLINES.forEach(d => {
+  const n = PROJECTS.filter(p => p.d.includes(d)).length;
+  const b = el("button", { class: "word", type: "button", "data-f": d, "aria-pressed": "false", "data-cut": "" }, [
+    el("span", { class: "stack" }, [
+      el("span", { class: "w-made", text: cap(d) }),
+      el("span", { class: "w-making", "aria-hidden": "true", text: cap(d) }),
+    ]),
+    el("span", { class: "n", text: String(n), "aria-label": n + " projects" }),
+  ]);
+  words.append(el("li", {}, [b]));
+});
+
+/* ---------- build: wall + index ---------- */
+const wall = $("#wall"), index = $("#index");
+PROJECTS.forEach(p => {
+  const plate = el(p.page ? "a" : "div", { class: "plate", href: p.page || null, "data-cut": "", style: "aspect-ratio:" + p.ar,
+                                           "aria-label": p.page ? p.title : null });
+  plate.append(layer(p, "making"), layer(p, "made"));
+  const title = el(p.page ? "a" : "span", { class: "t", href: p.page || null, text: p.title });
+  wall.append(el("li", { class: "tile", "data-d": p.d.join(" ") }, [
+    plate, el("p", { class: "cap" }, [title, el("span", { class: "m", text: meta(p) })])
+  ]));
+
+  const pair = el("span", { class: "pair", "aria-hidden": "true" }, ["made", "making"].map(side => {
+    if (p.placeholder) return el("span", { class: "ph " + side });
+    return el("span", {}, [el("img", { src: IMG + p[side].src, alt: "", loading: "lazy", decoding: "async" })]);
+  }));
+  index.append(el("li", { "data-d": p.d.join(" ") }, [
+    el(p.page ? "a" : "div", { class: "row", href: p.page || null }, [
+      pair,
+      el("span", { class: "t", text: p.title }),
+      el("span", { class: "d", text: cap(p.d.join(" and ")) }),
+      el("span", { class: "w", text: p.what }),
+      el("span", { class: "y", text: p.year }),
+    ])
+  ]));
+});
+
+/* ---------- seam ---------- */
+const stage = $(".stage"), seamEl = $("#seam"), knob = $("#knob");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* 'Both' parks the seam mid-way through a column: the third of four on desktop, the second of two on a phone */
+const both = () => (matchMedia("(max-width: 720px)").matches ? 0.75 : 0.62);
+const preset = b => (b.dataset.seam === "both" ? both() : parseFloat(b.dataset.seam));
+let seam = both(), rects = [], box = { left: 0, width: 1 }, raf = 0;
+
+function measure() {
+  const cs = getComputedStyle(stage), r = stage.getBoundingClientRect();
+  const pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight);
+  box = { left: r.left + pl, width: r.width - pl - pr };
+  rects = [...stage.querySelectorAll("[data-cut]")].map(n => {
+    const target = n.classList.contains("word") ? n.querySelector(".stack") : n;
+    const b = target.getBoundingClientRect();
+    return { n, left: b.left, width: b.width };
+  }).filter(o => o.width > 0);
+  paint();
+}
+function paint() {
+  const all = stage.dataset.view === "index";
+  const x = all ? Infinity : box.left + seam * box.width;
+  stage.style.setProperty("--s", seam);
+  for (const o of rects) {
+    const c = Math.max(0, Math.min(1, (x - o.left) / o.width));
+    o.n.style.setProperty("--cut", (c * 100).toFixed(2) + "%");
+    o.n.dataset.side = c >= 1 ? "made" : c <= 0 ? "making" : "split";
+  }
+  seamEl.classList.toggle("near-left", seam * box.width < 70);
+  seamEl.classList.toggle("near-right", (1 - seam) * box.width < 80);
+  const pct = Math.round(seam * 100);
+  knob.setAttribute("aria-valuenow", pct);
+  knob.setAttribute("aria-valuetext", pct + " percent made");
+  document.querySelectorAll("[data-seam]").forEach(b =>
+    b.setAttribute("aria-pressed", String(Math.abs(preset(b) - seam) < 0.005)));
+}
+function glide(to) {
+  cancelAnimationFrame(raf);
+  if (reduce) { seam = to; paint(); return; }
+  const from = seam, t0 = performance.now(), dur = 520;
+  const step = now => {
+    const t = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - t, 3);
+    seam = from + (to - from) * e; paint();
+    if (t < 1) raf = requestAnimationFrame(step);
+  };
+  raf = requestAnimationFrame(step);
+}
+knob.addEventListener("pointerdown", e => {
+  cancelAnimationFrame(raf);
+  knob.setPointerCapture(e.pointerId);
+  const move = ev => { seam = Math.max(0, Math.min(1, (ev.clientX - box.left) / box.width)); paint(); };
+  const up = () => { knob.removeEventListener("pointermove", move); knob.removeEventListener("pointerup", up); knob.removeEventListener("pointercancel", up); };
+  knob.addEventListener("pointermove", move);
+  knob.addEventListener("pointerup", up);
+  knob.addEventListener("pointercancel", up);
+});
+knob.addEventListener("keydown", e => {
+  const k = { ArrowLeft: -0.04, ArrowRight: 0.04, ArrowDown: -0.04, ArrowUp: 0.04 }[e.key];
+  if (k) { seam = Math.max(0, Math.min(1, seam + k)); paint(); e.preventDefault(); }
+  if (e.key === "Home") { seam = 0; paint(); e.preventDefault(); }
+  if (e.key === "End") { seam = 1; paint(); e.preventDefault(); }
+});
+document.querySelectorAll("[data-seam]").forEach(b => b.addEventListener("click", () => glide(preset(b))));
+
+/* ---------- filter ---------- */
+const status = $("#status");
+let filter = "";
+function applyFilter(f, pushHash = true) {
+  filter = DISCIPLINES.includes(f) ? f : "";
+  words.classList.toggle("filtered", !!filter);
+  words.querySelectorAll(".word").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === filter)));
+  let shown = 0;
+  [...wall.children, ...index.children].forEach(li => {
+    const on = !filter || li.dataset.d.split(" ").includes(filter);
+    li.hidden = !on;
+  });
+  shown = [...wall.children].filter(li => !li.hidden).length;
+  status.textContent = filter
+    ? "Showing " + shown + " " + filter + " project" + (shown === 1 ? "" : "s") + " of " + PROJECTS.length + "."
+    : "Showing all " + PROJECTS.length + " projects.";
+  if (filter) {
+    const all = el("button", { type: "button", text: "Show all" });
+    all.addEventListener("click", () => applyFilter(""));
+    status.append(all);
+  }
+  if (pushHash) history.replaceState(null, "", filter ? "#" + filter : location.pathname + location.search);
+  measure();
+}
+words.addEventListener("click", e => {
+  const b = e.target.closest(".word");
+  if (b) applyFilter(b.dataset.f === filter ? "" : b.dataset.f);
+});
+addEventListener("hashchange", () => applyFilter(location.hash.slice(1), false));
+
+/* ---------- view ---------- */
+document.querySelectorAll("[data-view]").forEach(b => {
+  if (b === stage) return;
+  b.addEventListener("click", () => {
+    stage.dataset.view = b.dataset.view;
+    document.querySelectorAll("button[data-view]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    $("#seam-presets").hidden = b.dataset.view === "index";
+    measure();
+  });
+});
+
+/* ---------- fit the mono word to the serif word so the two meet at the seam ---------- */
+function fitWords() {
+  words.querySelectorAll(".word").forEach(b => {
+    b.style.setProperty("--fit", 1);
+    const a = b.querySelector(".w-made").getBoundingClientRect().width;
+    const m = b.querySelector(".w-making").getBoundingClientRect().width;
+    if (a && m) b.style.setProperty("--fit", (a / m).toFixed(4));
+  });
+}
+
+let rz = 0;
+addEventListener("resize", () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => { fitWords(); measure(); }); });
+applyFilter(location.hash.slice(1), false);
+(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => { fitWords(); measure(); });
+</script>
+</body>
+</html>

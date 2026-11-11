@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Alexander Rosno">
+<meta name="description" content="Research log: notes that run alongside the work of Alexander Rosno.">
+<title>Research (test) | Alexander Rosno</title>
+
+<!--
+  TEST RESEARCH LOG. Self-contained like the other test pages.
+  This is where the how and why live, so the project pages can stay visual.
+
+  One entry = one <article class="entry">. Newest goes on top.
+    id      what project pages link to (testresearch.html#old-world-wisconsin)
+    date    <time datetime="2025-10-04">4 Oct 2025</time>, or leave "Undated"
+    rel     the projects this note belongs to
+-->
+
+<style>
+@font-face { font-family: "Geist"; src: url("assets/fonts/geist/Geist-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Geist"; src: url("assets/fonts/geist/Geist-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrains_Mono/JetBrainsMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+:root {
+  --paper: #ebebeb;
+  --ink: #2e2e2e;
+  --graphite: #626262;
+  --rule: #cfcfcf;
+  --red: #e8291c;
+  --pad: clamp(16px, 2.6vw, 44px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 24px; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.5 "Geist", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+/* ---------- header (same as test.html) ---------- */
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 20px var(--pad) 0; flex-wrap: wrap; }
+.top .name { text-decoration: none; letter-spacing: 0.01em; font-size: clamp(1rem, 1.4vw, 1.25rem); white-space: nowrap; }
+.top nav ul { display: flex; gap: clamp(1rem, 2vw, 2rem); list-style: none; margin: 0; padding: 0; }
+.top nav a { text-decoration: none; padding-bottom: 2px; background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .3s ease; }
+.top nav a:hover, .top nav a[aria-current] { background-size: 100% 1px; }
+
+/* ---------- reviewer notes (delete for the real page) ---------- */
+.notes { margin: 18px var(--pad) 0; border: 1px dashed var(--red); padding: 10px 14px; font-size: .875rem; max-width: 62ch; }
+.notes summary { cursor: pointer; font-weight: 500; }
+.notes ol { margin: .6em 0 .2em; padding-left: 1.2em; }
+.notes li { margin: .25em 0; }
+
+/* ---------- log ---------- */
+main { padding: clamp(28px, 4.4vw, 68px) var(--pad) 0; }
+h1 {
+  margin: 0 0 clamp(20px, 3vw, 44px);
+  font: 400 clamp(2rem, 4.6vw, 4.25rem)/1 "JetBrains Mono", ui-monospace, monospace;   /* the "making" voice from the Work page */
+  letter-spacing: -0.03em;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 62ch) minmax(0, 1fr);
+  gap: 10px clamp(20px, 3vw, 48px);
+  padding: 18px 0 clamp(28px, 3.4vw, 48px);
+  border-top: 1px solid var(--ink);
+}
+.entry:target { border-top-color: var(--red); box-shadow: 0 -1px 0 var(--red); }
+.entry .date { margin: 0; font: 400 .8125rem/1.7 "JetBrains Mono", ui-monospace, monospace; color: var(--graphite); }
+.entry h2 { margin: 0 0 .5em; font: 500 1.25rem/1.3 "Geist", sans-serif; }
+.entry .text p { margin: 0 0 1em; font-size: 1.0625rem; line-height: 1.6; }
+.entry .text p:last-child { margin-bottom: 0; }
+
+.rel { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; justify-self: end; min-width: 13rem; }
+.rel a { display: flex; align-items: center; gap: 12px; text-decoration: none; font-size: .9375rem; }
+.rel img { display: block; width: 56px; height: 56px; object-fit: cover; background: #dcdcdc; }
+.rel a:hover span { text-decoration: underline; text-underline-offset: 3px; }
+
+footer { padding: clamp(32px, 5vw, 64px) var(--pad) 28px; color: var(--graphite); font-size: .8125rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-top: 1px solid var(--ink); margin: 0 var(--pad); padding-left: 0; padding-right: 0; padding-top: 14px; }
+footer p { margin: 0; }
+
+@media (max-width: 900px) {
+  .entry { grid-template-columns: minmax(0, 1fr); }
+  .rel { justify-self: start; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; margin-top: 6px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+
+<body>
+
+<header class="top">
+  <a class="name" href="index.html">ALEXANDER ROSNO</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="test.html">Work</a></li>
+      <li><a href="testresearch.html" aria-current="page">Research</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<details class="notes">
+  <summary>Test research log: what this is</summary>
+  <ol>
+    <li>The how and why moved here from the project pages. Each entry lists the projects it belongs to, and those projects link back.</li>
+    <li>Both entries are your own words: the first from PaperPanel.html, the second from the old Cellulose Table text. The entry titles are mine.</li>
+    <li>I found no dates in the files, so both say Undated.</li>
+  </ol>
+</details>
+
+<main>
+  <h1>Research</h1>
+
+  <article class="entry" id="old-world-wisconsin">
+    <p class="date">Undated</p>
+    <div class="text">
+      <h2>Old World Wisconsin</h2>
+      <p>My hometown of Eagle, WI, is home to the museum Old World Wisconsin, which has been a major inspiration for this work. The linear history of the agricultural barn showcases cultural and social shifts within the state over time in connection with construction methodology. This can be seen in the early fieldstone foundations, in a period when money had less governance and the farmer required more self-sufficiency for the establishment of his or her farmstead. These foundations began to disappear with the advent of cinder blocks, as the dollar&rsquo;s use ushered in expediency. Heavy timber, and its community barn raisings, disappeared with the rise of light-wood framing.</p>
+    </div>
+    <ul class="rel" aria-label="Related projects">
+      <li><a href="testproject.html"><img src="assets/images/PaperPanel/Panel-Whole.jpg" alt="" loading="lazy" decoding="async"><span>Architectural Paper</span></a></li>
+      <li><a href="CelluloseTable.html"><img src="assets/images/PaperCube/paper_thumbSMALL.jpg" alt="" loading="lazy" decoding="async"><span>Opus</span></a></li>
+    </ul>
+  </article>
+
+  <article class="entry" id="de-monetized-making">
+    <p class="date">Undated</p>
+    <div class="text">
+      <h2>De-monetized making</h2>
+      <p>The <i>Cellulose Table</i> is a project exploring the use of natural and recycled paper fibers in the creation of structurally stable objects. I&rsquo;m interested in how this could be utilized in de-monetized making: the removal of currency from construction. Frank Lloyd Wright&rsquo;s &ldquo;Usonian&rdquo; homes and Walter Segal&rsquo;s &ldquo;Segal Method&rdquo; were the philosophical foundations for this work.</p>
+    </div>
+    <ul class="rel" aria-label="Related projects">
+      <li><a href="CelluloseTable.html"><img src="assets/images/PaperCube/paper_thumbSMALL.jpg" alt="" loading="lazy" decoding="async"><span>Opus</span></a></li>
+    </ul>
+  </article>
+</main>
+
+<footer>
+  <p>&copy; 2026 Alexander Rosno</p>
+  <p>testresearch.html, a prototype for review</p>
+</footer>
+
+</body>
+</html>

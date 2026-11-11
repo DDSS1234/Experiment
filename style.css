@@ -5,7 +5,7 @@
 }
 
 :root {
-  --clr-background: rgb(255, 255, 255);
+  --clr-background: #FFEEDE;
   --clr-fontmain:rgb(0, 0, 0);
   --clr-fontalt: rgb(100, 100, 100);
   --padding-projectpage: 16px;
